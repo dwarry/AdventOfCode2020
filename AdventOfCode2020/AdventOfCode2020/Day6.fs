@@ -17,11 +17,10 @@ let processGroup (groupData: string) =
 let processGroup2 (groupData: string) = 
    groupData.Split([| System.Environment.NewLine |], System.StringSplitOptions.None)
    |> Array.map (fun x -> Set.ofArray (x.ToCharArray()))
-   |> Array.fold (fun ss x -> Set.intersect ss x) (Set(seq {'a' .. 'z'}))
+   |> Array.fold Set.intersect (Set(seq {'a' .. 'z'}))
 
 let countAnswersForGroups path = 
    readFile path
-   |> Array.map processGroup2
-   |> Array.map (fun x -> Set.count x)
+   |> Array.map (processGroup2 >> Set.count )
 
 
